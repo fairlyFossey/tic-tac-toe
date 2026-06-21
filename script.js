@@ -9,7 +9,7 @@ const gameboard = (() => {
     function occupyTile(pos, player) {
         if (grid[pos] == undefined) {
             grid[pos] = player;
-            // call gameflow-nextPlayersTurn method
+            gameManager.endTurn();
         };
     };
     function getBoardState() {
