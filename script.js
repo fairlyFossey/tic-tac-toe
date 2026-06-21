@@ -16,7 +16,7 @@ const gameboard = (() => {
         return grid;
     };
     function resetBoardState() {
-        grid = grid.map((tile) => tile = undefined);
+        grid.fill(undefined);
     };
 
     return { occupyTile, getBoardState, resetBoardState };
