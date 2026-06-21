@@ -9,7 +9,7 @@ const gameboard = (() => {
     function occupyTile(pos, player) {
         if (grid[pos] == undefined) {
             grid[pos] = player;
-            // call gameflow-endturn method
+            // call gameflow-nextPlayersTurn method
         };
     };
     function getBoardState() {
@@ -38,15 +38,78 @@ function createPlayer(name) {
 
 
 // gameflow object
-    // turn manager
-        // create a current-turn variable
-        // create an end-turn method that checks for win/stalemate and then toggles the current turn variable
-        // create a method to randomize the value of current turn variable to determine starting player
-    // start new game
-        // call the gameboard-reset method
-        // call current-turn-randomizer method
-        // call to update display
-    // update display
+const gameManager = (() => {
+    let currentPlayer;
 
+    function getCurrentPlayer() {
+        const p1 = "player1";
+        const p2 = "player2";
+        // set starting player if needed
+        if (currentPlayer == undefined) {
+            Math.random() >= 0.5 ? currentPlayer = p1 : currentPlayer = p2;
+        };
+        return currentPlayer;
+    };
 
-    
+    function endTurn() {
+        if (checkForWin() == true) {
+            console.log(`${currentPlayer} wins!`);
+            return;
+        } else if (checkForTie() == true) {
+            console.log("Its a tie!");
+            return;
+        };
+
+        currentPlayer = p1 ? currentPlayer = p2 : currentPlayer = p1;
+    };
+
+    function checkForWin() {
+        const winConditions = [
+            // rows
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            // columns
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            // diagonals
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        // get index of all tiles owned by current player
+        let ownedTiles = [];
+        gameboard.getBoardState().forEach((tile, index) => {
+            if (tile == currentPlayer) {
+                ownedTiles.push(index);
+            };
+        });
+
+        // compare player owned tiles against win-conditions
+        for (const winCon of winConditions) {
+            if (ownedTiles.includes(winCon[0])
+                && ownedTiles.includes(winCon[1])
+                && ownedTiles.includes(winCon[2])) {
+                return true;
+            };
+        };
+        return false;
+    };
+
+    function checkForTie() {
+        const tileHasToken = (tile) => tile != undefined;
+
+        if (gameboard.getBoardState().every(tileHasToken)) {
+            if (checkForWin() == false) {
+                return true;
+            };
+        };
+        return false;
+    };
+
+    function startNewGame() {
+        gameboard.resetBoardState();
+        currentPlayer = undefined;
+        // placeholder for call to update display
+    };
+
+    // update display method
+
+    return { getCurrentPlayer, endTurn, startNewGame, };
+})();
