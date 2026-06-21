@@ -40,10 +40,10 @@ function createPlayer(name) {
 // gameflow object
 const gameManager = (() => {
     let currentPlayer;
+    const p1 = "player1";
+    const p2 = "player2";
 
     function getCurrentPlayer() {
-        const p1 = "player1";
-        const p2 = "player2";
         // set starting player if needed
         if (currentPlayer == undefined) {
             Math.random() >= 0.5 ? currentPlayer = p1 : currentPlayer = p2;
@@ -60,7 +60,7 @@ const gameManager = (() => {
             return;
         };
 
-        currentPlayer = p1 ? currentPlayer = p2 : currentPlayer = p1;
+        currentPlayer == p1 ? currentPlayer = p2 : currentPlayer = p1;
     };
 
     function checkForWin() {
