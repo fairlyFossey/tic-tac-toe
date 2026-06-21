@@ -10,23 +10,32 @@ const gameboard = (() => {
         if (grid[pos] == undefined) {
             grid[pos] = player;
             // call gameflow-endturn method
-        }
-    }
+        };
+    };
     function getBoardState() {
         return grid;
-    }
+    };
     function resetBoardState() {
         grid = grid.map((tile) => tile = undefined);
-    }
+    };
 
-    return { occupyTile, getBoardState, resetBoardState }
+    return { occupyTile, getBoardState, resetBoardState };
 })();
 
-// playerX and playerO objects
-    // create a player name variable
-        // create a setter method for player name
-    // create a player score variable
-        // increment score method
+
+// player factory function
+function createPlayer(name) {
+    const getName = () => name;
+
+    let score = 0;
+    const getScore = () => score;
+    function incrementScore() {
+        score++;
+    };
+  
+    return { getName, getScore, incrementScore };
+};
+
 
 // gameflow object
     // turn manager
