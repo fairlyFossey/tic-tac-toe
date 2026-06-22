@@ -115,9 +115,17 @@ const gameManager = (() => {
 
 
 const uiController = (() => {
-    function updateBoard() {
-        let displayedTiles = document.querySelectorAll(".gameboard-tile");
+    let displayedTiles = document.querySelectorAll(".gameboard-tile");
 
+    // handle user input
+    displayedTiles.forEach((tile) => {
+        tile.addEventListener("click", (e) => {
+            let pos = e.target.id;
+            gameboard.occupyTile(pos, gameManager.getCurrentPlayer());
+        });
+    });
+    
+    function updateBoard() {
         // iterate through game board checking values
         gameboard.getBoardState().forEach((value, pos) => {
             // assign corresponding classes via DOM 
