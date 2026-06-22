@@ -10,7 +10,7 @@ const gameboard = (() => {
         if (grid[pos] == undefined) {
             grid[pos] = player;
             gameManager.endTurn();
-            uiController.updateBoard();
+            uiController.updateDisplay();
         };
     };
     function getBoardState() {
@@ -18,7 +18,7 @@ const gameboard = (() => {
     };
     function resetBoardState() {
         grid.fill(undefined);
-        uiController.updateBoard();
+        uiController.updateDisplay();
     };
 
     return { occupyTile, getBoardState, resetBoardState };
@@ -46,7 +46,7 @@ const gameManager = (() => {
     const p2 = "player2";
 
     function getCurrentPlayer() {
-        // set starting player if needed
+        // assign random starting player if needed
         if (currentPlayer == undefined) {
             Math.random() >= 0.5 ? currentPlayer = p1 : currentPlayer = p2;
         };
@@ -75,7 +75,7 @@ const gameManager = (() => {
             [0, 4, 8], [2, 4, 6]
         ];
 
-        // get index of all tiles owned by current player
+        // get all tiles owned by current player
         let ownedTiles = [];
         gameboard.getBoardState().forEach((tile, index) => {
             if (tile == currentPlayer) {
@@ -83,7 +83,7 @@ const gameManager = (() => {
             };
         });
 
-        // compare player owned tiles against win-conditions
+        // compare against possible win-conditions
         for (const winCon of winConditions) {
             if (ownedTiles.includes(winCon[0])
                 && ownedTiles.includes(winCon[1])
@@ -125,10 +125,9 @@ const uiController = (() => {
         });
     });
     
-    function updateBoard() {
-        // iterate through game board checking values
+    // sync DOM with gamestate
+    function updateDisplay() {
         gameboard.getBoardState().forEach((value, pos) => {
-            // assign corresponding classes via DOM 
             if (value == "player1" || value == "player2") {
                 displayedTiles[pos].classList.add(value);
             } else {
@@ -137,5 +136,5 @@ const uiController = (() => {
             };
         });
     };
-    return { updateBoard };
+    return { updateDisplay };
 })();
