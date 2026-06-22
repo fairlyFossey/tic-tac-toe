@@ -7,7 +7,7 @@ const gameboard = (() => {
     ];
 
     function occupyTile(pos, player) {
-        if (grid[pos] == undefined) {
+        if (grid[pos] == undefined && gameManager.checkForWin() == false) {
             grid[pos] = player;
             gameManager.endTurn();
             uiController.updateDisplay();
@@ -110,7 +110,7 @@ const gameManager = (() => {
         currentPlayer = undefined;
     };
 
-    return { getCurrentPlayer, endTurn, startNewGame, };
+    return { getCurrentPlayer, endTurn, startNewGame, checkForWin };
 })();
 
 
