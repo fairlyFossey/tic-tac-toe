@@ -1,1 +1,19 @@
 @import "reset-addon.css";
+
+.gameboard-row {
+    display: flex;
+}
+
+.gameboard-tile {
+    border: 1px solid black;
+    height: 100px;
+    width: 100px;
+}
+
+.player1 {
+    background-color: lightcoral;
+}  
+
+.player2 {
+    background-color: lightblue;
+}
