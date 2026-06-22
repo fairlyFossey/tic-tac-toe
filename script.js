@@ -10,6 +10,7 @@ const gameboard = (() => {
         if (grid[pos] == undefined) {
             grid[pos] = player;
             gameManager.endTurn();
+            uiController.updateBoard();
         };
     };
     function getBoardState() {
@@ -17,6 +18,7 @@ const gameboard = (() => {
     };
     function resetBoardState() {
         grid.fill(undefined);
+        uiController.updateBoard();
     };
 
     return { occupyTile, getBoardState, resetBoardState };
@@ -106,10 +108,26 @@ const gameManager = (() => {
     function startNewGame() {
         gameboard.resetBoardState();
         currentPlayer = undefined;
-        // placeholder for call to update display
     };
 
-    // update display method
-
     return { getCurrentPlayer, endTurn, startNewGame, };
+})();
+
+
+const uiController = (() => {
+    function updateBoard() {
+        let displayedTiles = document.querySelectorAll(".gameboard-tile");
+
+        // iterate through game board checking values
+        gameboard.getBoardState().forEach((value, pos) => {
+            // assign corresponding classes via DOM 
+            if (value == "player1" || value == "player2") {
+                displayedTiles[pos].classList.add(value);
+            } else {
+                displayedTiles[pos].classList.remove("player1");
+                displayedTiles[pos].classList.remove("player2");
+            };
+        });
+    };
+    return { updateBoard };
 })();
