@@ -127,6 +127,7 @@ const gameManager = (() => {
 const uiController = (() => {
     const displayedTiles = document.querySelectorAll(".gameboard-tile");
     const playerNameCntrs = document.querySelectorAll(".player-name-cntr");
+    const scoreDisplays = document.querySelectorAll(".score-display");
     const restartBtn = document.querySelector("button");
 
     // handle user input of game
@@ -190,6 +191,12 @@ const uiController = (() => {
             const num = cntr.dataset.playerNumber;
 
             nameplate.textContent = player[num].getName();
+        });
+        // sync DOM with player scores
+        scoreDisplays.forEach((display) => {
+            const num = display.dataset.playerNumber;
+
+            display.textContent = player[num].getScore();
         });
     };
     return { updateDisplay };
