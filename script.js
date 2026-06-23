@@ -1,4 +1,4 @@
-// gameboard object
+// GAMEBOARD OBJECT
 const gameboard = (() => {
     let grid = [
         undefined, undefined, undefined,
@@ -25,50 +25,53 @@ const gameboard = (() => {
 })();
 
 
-// player factory function
-function createPlayer(name) {
-    const getName = () => name;
+// PLAYER OBJECT
+const player = (() => {
 
-    function setName(str) {
-        // validation prevents displayed nameplates from becoming unclickable
-        if (str) name = str;
-        uiController.updateDisplay();
+    function createPlayer(name) {
+        // name methods
+        const getName = () => name;
+        function setName(str) {
+            // validation prevents nameplates from becoming unclickable
+            if (str) name = str;
+            uiController.updateDisplay();
+        };
+        // score methods
+        let score = 0;
+        const getScore = () => score;
+        function incrementScore() {
+            score++;
+        };
+        
+        return { getName, setName, getScore, incrementScore };
     };
 
-    let score = 0;
-    const getScore = () => score;
-    function incrementScore() {
-        score++;
-    };
-  
-    return { getName, setName, getScore, incrementScore };
-};
+    return { 1: createPlayer("player1"), 2: createPlayer("player2"), };
+})();
 
 
-// gameflow object
+// GAMEFLOW OBJECT
 const gameManager = (() => {
     let currentPlayer;
-    const p1 = "player1";
-    const p2 = "player2";
 
     function getCurrentPlayer() {
         // assign random starting player if needed
         if (currentPlayer == undefined) {
-            Math.random() >= 0.5 ? currentPlayer = p1 : currentPlayer = p2;
+            Math.random() >= 0.5 ? currentPlayer = player[1] : currentPlayer = player[2];
         };
         return currentPlayer;
     };
 
     function endTurn() {
         if (checkForWin() == true) {
-            console.log(`${currentPlayer} wins!`);
+            console.log(`${currentPlayer.getName()} wins!`);
             return;
         } else if (checkForTie() == true) {
             console.log("Its a tie!");
             return;
         };
-
-        currentPlayer == p1 ? currentPlayer = p2 : currentPlayer = p1;
+        // toggle turns
+        currentPlayer == player[1] ? currentPlayer = player[2] : currentPlayer = player[1];
     };
 
     function checkForWin() {
@@ -119,7 +122,7 @@ const gameManager = (() => {
     return { getCurrentPlayer, endTurn, startNewGame, checkForWin };
 })();
 
-
+// UI OBJECT
 const uiController = (() => {
     const displayedTiles = document.querySelectorAll(".gameboard-tile");
     const playerNameCntrs = document.querySelectorAll(".player-name-cntr");
@@ -135,7 +138,7 @@ const uiController = (() => {
 
     restartBtn.addEventListener('click', () => {
         gameManager.startNewGame();
-    })
+    });
 
     // handle user input for nameplates
     playerNameCntrs.forEach((cntr) => {
@@ -159,11 +162,9 @@ const uiController = (() => {
         });
 
         function submitField() {
-            if (cntr.id == "p1") {
-                player1.setName(input.value);
-            } else {
-                player2.setName(input.value);
-            };
+            const num = cntr.dataset.playerNumber;
+
+            player[num].setName(input.value);
             input.style.display = "none";
             nameplate.style.display = "block";
             img.style.display = "block";
@@ -173,8 +174,10 @@ const uiController = (() => {
     // sync DOM with gamestate
     function updateDisplay() {
         gameboard.getBoardState().forEach((value, pos) => {
-            if (value == "player1" || value == "player2") {
-                displayedTiles[pos].classList.add(value);
+            if (value == player[1]) {
+                displayedTiles[pos].classList.add("player1");
+            } else if (value == player[2]) {
+                displayedTiles[pos].classList.add("player2");
             } else {
                 displayedTiles[pos].classList.remove("player1");
                 displayedTiles[pos].classList.remove("player2");
@@ -183,15 +186,10 @@ const uiController = (() => {
         // sync DOM with player names
         playerNameCntrs.forEach((cntr) => {
             const nameplate = cntr.querySelector("div");
-            if (cntr.id == "p1") {
-                nameplate.textContent = player1.getName();
-            } else {
-                nameplate.textContent = player2.getName();
-            };
+            const num = cntr.dataset.playerNumber;
+
+            nameplate.textContent = player[num].getName();
         });
     };
     return { updateDisplay };
 })();
-
-let player1 = createPlayer("player1");
-let player2 = createPlayer("player2");
