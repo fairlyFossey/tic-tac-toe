@@ -29,13 +29,17 @@ const gameboard = (() => {
 function createPlayer(name) {
     const getName = () => name;
 
+    function setName(str) {
+        name = str;
+    };
+
     let score = 0;
     const getScore = () => score;
     function incrementScore() {
         score++;
     };
   
-    return { getName, getScore, incrementScore };
+    return { getName, setName, getScore, incrementScore };
 };
 
 
