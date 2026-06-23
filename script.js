@@ -31,6 +31,7 @@ function createPlayer(name) {
 
     function setName(str) {
         name = str;
+        uiController.updateDisplay();
     };
 
     let score = 0;
@@ -120,6 +121,8 @@ const gameManager = (() => {
 
 const uiController = (() => {
     let displayedTiles = document.querySelectorAll(".gameboard-tile");
+    let displayedNameOfP1 = document.querySelector(".p1");
+    let displayedNameOfP2 = document.querySelector(".p2");
 
     // handle user input
     displayedTiles.forEach((tile) => {
@@ -139,6 +142,12 @@ const uiController = (() => {
                 displayedTiles[pos].classList.remove("player2");
             };
         });
+        // sync DOM with player names
+        displayedNameOfP1.textContent = player1.getName();
+        displayedNameOfP2.textContent = player2.getName();
     };
     return { updateDisplay };
 })();
+
+let player1 = createPlayer("player1");
+let player2 = createPlayer("player2");
