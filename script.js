@@ -30,7 +30,8 @@ function createPlayer(name) {
     const getName = () => name;
 
     function setName(str) {
-        name = str;
+        // validation prevents displayed nameplates from becoming unclickable
+        if (str) name = str;
         uiController.updateDisplay();
     };
 
@@ -120,18 +121,50 @@ const gameManager = (() => {
 
 
 const uiController = (() => {
-    let displayedTiles = document.querySelectorAll(".gameboard-tile");
-    let displayedNameOfP1 = document.querySelector(".p1");
-    let displayedNameOfP2 = document.querySelector(".p2");
+    const displayedTiles = document.querySelectorAll(".gameboard-tile");
+    const playerNameCntrs = document.querySelectorAll(".player-name-cntr");
 
-    // handle user input
+    // handle user input of game
     displayedTiles.forEach((tile) => {
         tile.addEventListener("click", (e) => {
             let pos = e.target.id;
             gameboard.occupyTile(pos, gameManager.getCurrentPlayer());
         });
     });
-    
+
+    // handle user input for nameplates
+    playerNameCntrs.forEach((cntr) => {
+        const nameplate = cntr.querySelector("div");
+        const input = cntr.querySelector("input");
+        const img = cntr.querySelector("img");
+
+        // clickable nameplates
+        nameplate.addEventListener('click', () => {
+            input.textContent = nameplate.textContent;
+            nameplate.style.display = "none";
+            img.style.display = "none";
+            input.style.display = "block";
+            input.focus();
+        });
+
+        // submit name edits
+        input.addEventListener('focusout', () => submitField());
+        input.addEventListener('keydown', (e) => {
+            if (e.key == "Enter") submitField();
+        });
+
+        function submitField() {
+            if (cntr.id == "p1") {
+                player1.setName(input.value);
+            } else {
+                player2.setName(input.value);
+            };
+            input.style.display = "none";
+            nameplate.style.display = "block";
+            img.style.display = "block";
+        };
+    });
+
     // sync DOM with gamestate
     function updateDisplay() {
         gameboard.getBoardState().forEach((value, pos) => {
@@ -143,8 +176,14 @@ const uiController = (() => {
             };
         });
         // sync DOM with player names
-        displayedNameOfP1.textContent = player1.getName();
-        displayedNameOfP2.textContent = player2.getName();
+        playerNameCntrs.forEach((cntr) => {
+            const nameplate = cntr.querySelector("div");
+            if (cntr.id == "p1") {
+                nameplate.textContent = player1.getName();
+            } else {
+                nameplate.textContent = player2.getName();
+            };
+        });
     };
     return { updateDisplay };
 })();
