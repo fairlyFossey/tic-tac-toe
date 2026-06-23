@@ -1,6 +1,6 @@
 // GAMEBOARD OBJECT
 const gameboard = (() => {
-    let grid = [
+    const grid = [
         undefined, undefined, undefined,
         undefined, undefined, undefined,
         undefined, undefined, undefined,
