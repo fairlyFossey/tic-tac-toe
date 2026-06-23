@@ -64,7 +64,8 @@ const gameManager = (() => {
 
     function endTurn() {
         if (checkForWin() == true) {
-            console.log(`${currentPlayer.getName()} wins!`);
+            currentPlayer.incrementScore();
+            console.log(`${currentPlayer.getName()} wins! \n${currentPlayer.getName()}'s score is now: ${currentPlayer.getScore()}`);
             return;
         } else if (checkForTie() == true) {
             console.log("Its a tie!");
