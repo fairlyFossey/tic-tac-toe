@@ -123,6 +123,7 @@ const gameManager = (() => {
 const uiController = (() => {
     const displayedTiles = document.querySelectorAll(".gameboard-tile");
     const playerNameCntrs = document.querySelectorAll(".player-name-cntr");
+    const restartBtn = document.querySelector("button");
 
     // handle user input of game
     displayedTiles.forEach((tile) => {
@@ -131,6 +132,10 @@ const uiController = (() => {
             gameboard.occupyTile(pos, gameManager.getCurrentPlayer());
         });
     });
+
+    restartBtn.addEventListener('click', () => {
+        gameManager.startNewGame();
+    })
 
     // handle user input for nameplates
     playerNameCntrs.forEach((cntr) => {
