@@ -5,9 +5,18 @@
 }
 
 .gameboard-tile {
-    border: 1px solid black;
     height: 100px;
     width: 100px;
+}
+
+.side-borders {
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+}
+
+.vertical-borders {
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
 }
 
 .player1 {
