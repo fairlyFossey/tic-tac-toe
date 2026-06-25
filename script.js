@@ -73,14 +73,14 @@ const gameManager = (() => {
         if (getGameState() == "victory") {
             currentPlayer.incrementScore();
             console.log(`${currentPlayer.getName()} wins! \n${currentPlayer.getName()}'s score is now: ${currentPlayer.getScore()}`);
-            uiController.showVictoryPrompt(currentPlayer);
+            uiController.showSummary(currentPlayer);
             uiController.updateDisplay();
             return;
         };
 
         if (getGameState() == "tie") {
             console.log("Its a tie!");
-            uiController.showTiePrompt();
+            uiController.showSummary();
             return;
         };
 
@@ -170,21 +170,23 @@ const uiController = (() => {
     summary.addEventListener('click', () => {
         if (gameManager.getGameState() != "active") {
             gameManager.startNewGame();
-            hidePrompts();
+            hideSummary();
         };
     });
 
-    function showVictoryPrompt(player) {
+    function showSummary(winner) {
+        if (gameManager.getGameState() == "victory") {
         displayedGameboard.style.filter = "blur(5px)";
         summary.style.display = "block";
-        summaryWinner.textContent = `${player.getName()} Wins!`;
-    };
-    function showTiePrompt() {
+        summaryWinner.textContent = `${winner.getName()} Wins!`;
+       };
+       if (gameManager.getGameState() == "tie") {
         displayedGameboard.style.filter = "blur(5px)";
         summary.style.display = "block";
         summaryWinner.textContent = "Its a tie!";
+       };
     };
-    function hidePrompts() {
+    function hideSummary() {
         displayedGameboard.style.filter = "none";
         summary.style.display = "none";
     };
@@ -247,5 +249,5 @@ const uiController = (() => {
             display.textContent = player[num].getScore();
         });
     };
-    return { updateDisplay, showVictoryPrompt, showTiePrompt, };
+    return { updateDisplay, showSummary, };
 })();
