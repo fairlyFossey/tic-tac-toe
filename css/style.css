@@ -4,6 +4,10 @@
     --tile-size: 100px
 }
 
+.header__text--italic {
+    font-style: italic;
+}
+
 .gameboard {
     display: grid;
     grid-template-columns: repeat(3, var(--tile-size));
