@@ -1,7 +1,8 @@
 @import "reset-addon.css";
 
 :root {
-    --tile-size: 100px
+    --tile-size: 100px;
+    --semi-trans-black: #00000080;
 }
 
 .viewport {
@@ -12,6 +13,14 @@
 
     height: 100vh;
     width: 100vw;
+}
+
+.header--frosted-bg,
+.gameboard--frosted-bg,
+.scoreboard--frosted-bg,
+.footer--frosted-bg {
+    background-color: var(--semi-trans-black);
+    backdrop-filter: blur(4px);
 }
 
 .main {
