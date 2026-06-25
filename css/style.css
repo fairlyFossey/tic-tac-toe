@@ -1,12 +1,18 @@
 @import "reset-addon.css";
 
-.gameboard-row {
-    display: flex;
+:root {
+    --tile-size: 100px
+}
+
+.gameboard-cntr {
+    display: grid;
+    grid-template-columns: repeat(3, var(--tile-size));
+    grid-template-rows: repeat(3, var(--tile-size));
 }
 
 .gameboard-tile {
-    height: 100px;
-    width: 100px;
+    height: 100%;
+    width: 100%;
 }
 
 .side-borders {
