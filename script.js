@@ -20,6 +20,8 @@ const gameboard = (() => {
 })();
 
 
+
+
 // PLAYER OBJECT
 const player = (() => {
 
@@ -42,6 +44,8 @@ const player = (() => {
 
     return { 1: createPlayer("player1"), 2: createPlayer("player2"), };
 })();
+
+
 
 
 // GAMEFLOW OBJECT
@@ -69,12 +73,14 @@ const gameManager = (() => {
         if (getGameState() == "victory") {
             currentPlayer.incrementScore();
             console.log(`${currentPlayer.getName()} wins! \n${currentPlayer.getName()}'s score is now: ${currentPlayer.getScore()}`);
+            uiController.showVictoryPrompt(currentPlayer);
             uiController.updateDisplay();
             return;
         };
 
         if (getGameState() == "tie") {
             console.log("Its a tie!");
+            uiController.showTiePrompt();
             return;
         };
 
@@ -137,18 +143,22 @@ const gameManager = (() => {
         return false;
     };
 
-    return { takeTurn, startNewGame, };
+    return { takeTurn, startNewGame, getGameState, };
 })();
+
+
 
 
 // UI OBJECT
 const uiController = (() => {
     const displayedTiles = document.querySelectorAll(".gameboard__tile");
+    const displayedGameboard = document.querySelector(".gameboard");
+    const summary = document.querySelector(".postgame-summary");
+    const summaryWinner = document.querySelector(".postgame-summary__winner")
     const scoreboards = document.querySelectorAll(".scoreboard");
     const scoreDisplays = document.querySelectorAll(".scoreboard__score");
-    const restartBtn = document.querySelector("button");
-
-    // handle user input of game
+    
+    // handle user input of gameplay
     displayedTiles.forEach((tile) => {
         tile.addEventListener("click", (e) => {
             let tile = e.target.id;
@@ -156,9 +166,28 @@ const uiController = (() => {
         });
     });
 
-    restartBtn.addEventListener('click', () => {
-        gameManager.startNewGame();
+    // handle user input of post game summary
+    summary.addEventListener('click', () => {
+        if (gameManager.getGameState() != "active") {
+            gameManager.startNewGame();
+            hidePrompts();
+        };
     });
+
+    function showVictoryPrompt(player) {
+        displayedGameboard.style.filter = "blur(5px)";
+        summary.style.display = "block";
+        summaryWinner.textContent = `${player.getName()} Wins!`;
+    };
+    function showTiePrompt() {
+        displayedGameboard.style.filter = "blux(5px)";
+        summary.style.display = "block";
+        summaryWinner.textContent = "Its a tie!";
+    };
+    function hidePrompts() {
+        displayedGameboard.style.filter = "none";
+        summary.style.display = "none";
+    };
 
     // handle user input for nameplates
     scoreboards.forEach((scoreboard) => {
@@ -218,5 +247,5 @@ const uiController = (() => {
             display.textContent = player[num].getScore();
         });
     };
-    return { updateDisplay, };
+    return { updateDisplay, showVictoryPrompt, showTiePrompt, };
 })();

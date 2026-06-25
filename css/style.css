@@ -36,3 +36,17 @@
 .scoreboard__input {
     display: none;
 }
+
+.postgame-summary {
+    display: none;
+    position: absolute;
+    /* placeholder values until positioning is locked in */
+    top: 28%;
+    left: 1%;
+    /* top: 50%;
+    left: 50%;
+    transform: translate(50%, 50%); */
+
+    font-size: 2rem;
+    text-align: center;
+}
