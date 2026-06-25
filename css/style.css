@@ -4,35 +4,35 @@
     --tile-size: 100px
 }
 
-.gameboard-cntr {
+.gameboard {
     display: grid;
     grid-template-columns: repeat(3, var(--tile-size));
     grid-template-rows: repeat(3, var(--tile-size));
 }
 
-.gameboard-tile {
+.gameboard__tile {
     height: 100%;
     width: 100%;
 }
 
-.side-borders {
+.gameboard__tile--border-lr {
     border-left: 3px solid black;
     border-right: 3px solid black;
 }
 
-.vertical-borders {
+.gameboard__tile--border-tb {
     border-top: 3px solid black;
     border-bottom: 3px solid black;
 }
 
-.player1 {
+.gameboard__tile--selected-p1 {
     background-color: lightcoral;
 }  
 
-.player2 {
+.gameboard__tile--selected-p2 {
     background-color: lightblue;
 }
 
-input {
+.scoreboard__input {
     display: none;
 }

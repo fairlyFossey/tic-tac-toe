@@ -8,28 +8,28 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="player-name-cntr" id="p1" data-player-number="1">
-        <div class="score-display" data-player-number="1">0</div>
-        <div class="player-nameplate p1">Player1</div>
-        <input type="text" minlength="3">
-        <img src="./img/edit.svg" alt="Edit Player 1's name" height="24" width="24">
-    </div>    
-    <div class="gameboard-cntr">
-        <div class="gameboard-tile" id="0">0</div>
-        <div class="gameboard-tile side-borders" id="1">1</div>
-        <div class="gameboard-tile" id="2">2</div>
-        <div class="gameboard-tile vertical-borders" id="3">3</div>
-        <div class="gameboard-tile vertical-borders side-borders" id="4">4</div>
-        <div class="gameboard-tile vertical-borders" id="5">5</div>
-        <div class="gameboard-tile" id="6">6</div>
-        <div class="gameboard-tile side-borders" id="7">7</div>
-        <div class="gameboard-tile" id="8">8</div>
+    <div class="scoreboard" data-player-number="1">
+        <div class="scoreboard__score" data-player-number="1">0</div>
+        <div class="scoreboard__nameplate">Player1</div>
+        <input class="scoreboard__input" type="text" minlength="3">
+        <img class="scoreboard__icon" src="./img/edit.svg" alt="Edit Player 1's name" height="24" width="24">
     </div>
-    <div class="player-name-cntr" id="p2" data-player-number="2">
-        <div class="score-display" data-player-number="2">0</div>
-        <div class="player-nameplate p2">Player2</div>
-        <input type="text">
-        <img src="./img/edit.svg" alt="Edit Player 2's name" height="24" width="24">
+    <div class="gameboard">
+        <div class="gameboard__tile" id="0">0</div>
+        <div class="gameboard__tile gameboard__tile--border-lr" id="1">1</div>
+        <div class="gameboard__tile" id="2">2</div>
+        <div class="gameboard__tile gameboard__tile--border-tb" id="3">3</div>
+        <div class="gameboard__tile gameboard__tile--border-tb gameboard__tile--border-lr" id="4">4</div>
+        <div class="gameboard__tile gameboard__tile--border-tb" id="5">5</div>
+        <div class="gameboard__tile" id="6">6</div>
+        <div class="gameboard__tile gameboard__tile--border-lr" id="7">7</div>
+        <div class="gameboard__tile" id="8">8</div>
+    </div>
+    <div class="scoreboard" data-player-number="2">
+        <div class="scoreboard__score" data-player-number="2">0</div>
+        <div class="scoreboard__nameplate">Player2</div>
+        <input class="scoreboard__input" type="text" minlength="3">
+        <img class="scoreboard__icon" src="./img/edit.svg" alt="Edit Player 2's name" height="24" width="24">
     </div>
     <button>Start new Game?</button>
 </body>

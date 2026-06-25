@@ -125,9 +125,9 @@ const gameManager = (() => {
 
 // UI OBJECT
 const uiController = (() => {
-    const displayedTiles = document.querySelectorAll(".gameboard-tile");
-    const playerNameCntrs = document.querySelectorAll(".player-name-cntr");
-    const scoreDisplays = document.querySelectorAll(".score-display");
+    const displayedTiles = document.querySelectorAll(".gameboard__tile");
+    const scoreboards = document.querySelectorAll(".scoreboard");
+    const scoreDisplays = document.querySelectorAll(".scoreboard__score");
     const restartBtn = document.querySelector("button");
 
     // handle user input of game
@@ -143,16 +143,16 @@ const uiController = (() => {
     });
 
     // handle user input for nameplates
-    playerNameCntrs.forEach((cntr) => {
-        const nameplate = cntr.querySelector("div");
-        const input = cntr.querySelector("input");
-        const img = cntr.querySelector("img");
+    scoreboards.forEach((scoreboard) => {
+        const nameplate = scoreboard.querySelector(".scoreboard__nameplate");
+        const input = scoreboard.querySelector(".scoreboard__input");
+        const icon = scoreboard.querySelector(".scoreboard__icon");
 
         // clickable nameplates
         nameplate.addEventListener('click', () => {
             input.textContent = nameplate.textContent;
             nameplate.style.display = "none";
-            img.style.display = "none";
+            icon.style.display = "none";
             input.style.display = "block";
             input.focus();
         });
@@ -164,12 +164,12 @@ const uiController = (() => {
         });
 
         function submitField() {
-            const num = cntr.dataset.playerNumber;
+            const num = scoreboard.dataset.playerNumber;
 
             player[num].setName(input.value);
             input.style.display = "none";
             nameplate.style.display = "block";
-            img.style.display = "block";
+            icon.style.display = "block";
         };
     });
 
@@ -177,18 +177,18 @@ const uiController = (() => {
     function updateDisplay() {
         gameboard.getBoardState().forEach((value, pos) => {
             if (value == player[1]) {
-                displayedTiles[pos].classList.add("player1");
+                displayedTiles[pos].classList.add("gameboard__tile--selected-p1");
             } else if (value == player[2]) {
-                displayedTiles[pos].classList.add("player2");
+                displayedTiles[pos].classList.add("gameboard__tile--selected-p2");
             } else {
-                displayedTiles[pos].classList.remove("player1");
-                displayedTiles[pos].classList.remove("player2");
+                displayedTiles[pos].classList.remove("gameboard__tile--selected-p1");
+                displayedTiles[pos].classList.remove("gameboard__tile--selected-p2");
             };
         });
         // sync DOM with player names
-        playerNameCntrs.forEach((cntr) => {
-            const nameplate = cntr.querySelector("div");
-            const num = cntr.dataset.playerNumber;
+        scoreboards.forEach((scoreboard) => {
+            const nameplate = scoreboard.querySelector(".scoreboard__nameplate");
+            const num = scoreboard.dataset.playerNumber;
 
             nameplate.textContent = player[num].getName();
         });
