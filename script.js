@@ -52,15 +52,14 @@ const player = (() => {
 
 // GAMEFLOW OBJECT
 const gameManager = (() => {
-    let currentPlayer;
+    let currentPlayer = getRandomPlayer();
 
-    function getCurrentPlayer() {
-        // assign random starting player if needed
-        if (currentPlayer == undefined) {
-            Math.random() >= 0.5 ? currentPlayer = player[1] : currentPlayer = player[2];
-        };
-        return currentPlayer;
-    };
+    function getRandomPlayer() {
+        return (Math.random() >= 0.5 ? player[1] : player[2]);
+    }
+
+    const getCurrentPlayer = () => currentPlayer;
+
 
     function endTurn() {
         if (checkForWin() == true) {
@@ -117,7 +116,7 @@ const gameManager = (() => {
 
     function startNewGame() {
         gameboard.resetBoardState();
-        currentPlayer = undefined;
+        currentPlayer = getRandomPlayer();
     };
 
     return { getCurrentPlayer, endTurn, startNewGame, checkForWin };
