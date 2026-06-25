@@ -180,7 +180,7 @@ const uiController = (() => {
         summaryWinner.textContent = `${player.getName()} Wins!`;
     };
     function showTiePrompt() {
-        displayedGameboard.style.filter = "blux(5px)";
+        displayedGameboard.style.filter = "blur(5px)";
         summary.style.display = "block";
         summaryWinner.textContent = "Its a tie!";
     };
