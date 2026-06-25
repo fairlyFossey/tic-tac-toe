@@ -4,6 +4,9 @@
     --tile-size: 100px;
     --color-trans-black: #00000080;
     --color-white: #fff;
+    --font-size-small: 1rem;
+    --font-size-medium: 3rem;
+    --font-size-large: 6rem;
 }
 
 .viewport {
@@ -42,6 +45,10 @@
     flex-grow: 1;
 }
 
+.header {
+    font-size: var(--font-size-medium);
+}
+
 .header__text--italic {
     font-style: italic;
 }
@@ -75,6 +82,13 @@
     background-color: lightblue;
 }
 
+.scoreboard__score {
+    font-size: var(--font-size-large);
+}
+
+.scoreboard__nameplate {
+    font-size: var(--font-size-medium);
+}
 .scoreboard__input {
     display: none;
 }
