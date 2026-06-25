@@ -29,7 +29,6 @@ const player = (() => {
         function setName(str) {
             // validation prevents nameplates from becoming unclickable
             if (str) name = str;
-            uiController.updateDisplay();
         };
         // score methods
         let score = 0;
@@ -189,6 +188,7 @@ const uiController = (() => {
             input.style.display = "none";
             nameplate.style.display = "block";
             icon.style.display = "block";
+            updateDisplay();
         };
     });
 
