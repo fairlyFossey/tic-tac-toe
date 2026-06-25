@@ -6,22 +6,17 @@ const gameboard = (() => {
         undefined, undefined, undefined,
     ];
 
-    function occupyTile(pos, player) {
-        if (grid[pos] == undefined) {
-            grid[pos] = player;
-            gameManager.endTurn();
-            uiController.updateDisplay();
-        };
+    function occupyTile(player, tile) {
+        grid[tile] = player;
     };
     function getBoardState() {
         return grid;
     };
     function resetBoardState() {
         grid.fill(undefined);
-        uiController.updateDisplay();
     };
 
-    return { occupyTile, getBoardState, resetBoardState };
+    return { occupyTile, getBoardState, resetBoardState, };
 })();
 
 
@@ -56,22 +51,51 @@ const gameManager = (() => {
 
     function getRandomPlayer() {
         return (Math.random() >= 0.5 ? player[1] : player[2]);
-    }
+    };
+    function toggleTurn() {
+        currentPlayer == player[1] ? currentPlayer = player[2] : currentPlayer = player[1];
+    };
 
-    const getCurrentPlayer = () => currentPlayer;
+    function takeTurn(tile) {
+        // check if tile is taken already
+        if (gameboard.getBoardState()[tile]) {
+            return;
+        };
 
+        if (getGameState() == "active") {
+            gameboard.occupyTile(currentPlayer, tile);
+            uiController.updateDisplay();
+        };
 
-    function endTurn() {
-        if (checkForWin() == true) {
+        if (getGameState() == "victory") {
             currentPlayer.incrementScore();
             console.log(`${currentPlayer.getName()} wins! \n${currentPlayer.getName()}'s score is now: ${currentPlayer.getScore()}`);
+            uiController.updateDisplay();
             return;
-        } else if (checkForTie() == true) {
+        };
+
+        if (getGameState() == "tie") {
             console.log("Its a tie!");
             return;
         };
-        // toggle turns
-        currentPlayer == player[1] ? currentPlayer = player[2] : currentPlayer = player[1];
+
+        toggleTurn();
+    };
+
+    function startNewGame() {
+        gameboard.resetBoardState();
+        currentPlayer = getRandomPlayer();
+        uiController.updateDisplay();
+    };
+
+    function getGameState() {
+        if (checkForWin()) {
+            return "victory";
+        } else if (checkForTie()) {
+            return "tie";
+        } else {
+            return "active";
+        };
     };
 
     function checkForWin() {
@@ -114,13 +138,9 @@ const gameManager = (() => {
         return false;
     };
 
-    function startNewGame() {
-        gameboard.resetBoardState();
-        currentPlayer = getRandomPlayer();
-    };
-
-    return { getCurrentPlayer, endTurn, startNewGame, };
+    return { takeTurn, startNewGame, };
 })();
+
 
 // UI OBJECT
 const uiController = (() => {
@@ -132,8 +152,8 @@ const uiController = (() => {
     // handle user input of game
     displayedTiles.forEach((tile) => {
         tile.addEventListener("click", (e) => {
-            let pos = e.target.id;
-            gameboard.occupyTile(pos, gameManager.getCurrentPlayer());
+            let tile = e.target.id;
+            gameManager.takeTurn(tile);
         });
     });
 
@@ -198,5 +218,5 @@ const uiController = (() => {
             display.textContent = player[num].getScore();
         });
     };
-    return { updateDisplay };
+    return { updateDisplay, };
 })();
