@@ -2,7 +2,8 @@
 
 :root {
     --tile-size: 100px;
-    --semi-trans-black: #00000080;
+    --color-trans-black: #00000080;
+    --color-white: #fff;
 }
 
 .viewport {
@@ -13,15 +14,26 @@
 
     height: 100vh;
     width: 100vw;
+
+    background-image: url(../img/arena-background.jpg);
+    background-position: center;
+    background-size: cover;
 }
 
 .header--frosted-bg,
 .gameboard--frosted-bg,
 .scoreboard--frosted-bg,
 .footer--frosted-bg {
-    background-color: var(--semi-trans-black);
+    background-color: var(--color-trans-black);
     backdrop-filter: blur(4px);
 }
+
+.header--clr-white,
+.scoreboard--clr-white,
+.footer--clr-white {
+    color: var(--color-white);
+}
+
 
 .main {
     display: flex;
